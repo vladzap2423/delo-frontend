@@ -1,0 +1,72 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { authService } from '@/services/auth.service';
+
+export default function AuthPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await authService.login({ username, password });
+      router.push('/'); // редирект на главную
+    } catch (err: any) {
+      // Поймаем сообщение Nest (UnauthorizedException → 401)
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        'Ошибка авторизации';
+      setError(Array.isArray(message) ? message.join(', ') : message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6">Авторизация</h2>
+
+        {error && <div className="text-red-600 text-center mb-4">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md"
+            placeholder="Введите логин"
+            autoComplete="username"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md"
+            placeholder="Введите пароль"
+            autoComplete="current-password"
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-800 text-white p-3 rounded-md hover:bg-emerald-900 disabled:opacity-60"
+          >
+            {loading ? 'Входим…' : 'Войти'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}

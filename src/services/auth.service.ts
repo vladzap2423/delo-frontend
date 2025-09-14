@@ -10,8 +10,6 @@ export async function loginApi(username: string, password: string) {
 
     try {
       const data = await res.json();
-      // у NestJS UnauthorizedException формат такой:
-      // { statusCode: 401, message: "Пользователь деактивирован", error: "Unauthorized" }
       if (data?.message) {
         message = data.message;
       }
@@ -22,5 +20,5 @@ export async function loginApi(username: string, password: string) {
     throw new Error(message);
   }
 
-  return res.json(); // { access_token: "..." }
+  return res.json();
 }

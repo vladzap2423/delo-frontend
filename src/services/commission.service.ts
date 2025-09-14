@@ -1,5 +1,10 @@
 import { useAuthStore } from "@/store/auth";
 
+export interface Commission {
+  id: number;
+  name: string;
+}
+
 async function authorizedFetch(url: string, options: RequestInit = {}) {
   const { token } = useAuthStore.getState();
   if (!token) throw new Error("Не авторизован");

@@ -1,0 +1,44 @@
+import { jwtDecode } from 'jwt-decode';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+type UserPayload = {
+  ыги: number;
+  username: string;
+  role: string;
+  iat: number;
+  exp: number;
+};
+
+type AuthState = {
+  token: string | null;
+  user: UserPayload | null
+  hydrated: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+};
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: null,
+      user: null,
+      hydrated: false,
+      login: (token) => {
+        try { 
+          const user = jwtDecode<UserPayload>(token)
+          set({token, user})
+        } catch (e) {
+          console.error("Ошибка при декодировании JWT", e)
+          set({ token: null, user: null})
+        }
+      },
+      logout: () => set({ token: null, user: null }),
+    }),
+    { name: 'auth-storage-SIGned',
+      onRehydrateStorage: () => (state) => {
+        setTimeout(() => state && (state.hydrated = true))
+      }
+     }
+  )
+);

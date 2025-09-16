@@ -1,0 +1,37 @@
+"use client";
+
+interface SignatureBlockProps {
+  fio: string;
+  cert?: string;
+  date?: string;
+  preview?: boolean; // для заглушки в схеме
+}
+
+export default function SignatureBlock({ fio, cert, date, preview }: SignatureBlockProps) {
+  return (
+    <div 
+    className=" w-[600px] h-[80px] border-2 border-purple-700 rounded-3xl bg-white shadow-md flex flex-col p-1 text-[11px] text-purple-800 overflow-hidden">
+      {/* Верхняя строка с логотипом и заголовком */}
+      <div className="flex items-center gap-1 le">
+        <img src="/logo-png.png" alt="logo" className="w-10 h-10 object-contain" />
+        <span className="font-bold text-[9px] leading-tight whitespace-normal">
+          ДОКУМЕНТ ПОДПИСАН УСИЛЕННОЙ КВАЛИФИЦИРОВАННОЙ ЭЛЕКТРОННОЙ ПОДПИСЬЮ
+        </span>
+      </div>
+      {/* ФИО */}
+      <div className="font-semibold text-xs truncate">
+        {fio}
+      </div>
+
+      {/* Сертификат */}
+      <div className="text-[10px]">
+        Сертификат: {cert || (preview ? "XXXX-XXXX-XXXX-XXXX" : "-")}
+      </div>
+
+      {/* Дата */}
+      <div className="text-[10px]">
+        Дата: {date || (preview ? new Date().toLocaleDateString() : "-")}
+      </div>
+    </div>
+  );
+}

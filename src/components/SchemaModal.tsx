@@ -34,8 +34,8 @@ export default function SchemaModal({ fileUrl, users, onClose, onSave }: SchemaM
   const [groupPos, setGroupPos] = useState({ x: 100, y: 100 });
 
   // фиксированные размеры каждой подписи
-  const blockWidth = 220;
-  const blockHeight = 90;
+  const blockWidth = 510;
+  const blockHeight = 60;
 
   const slotsRef = useRef<Slot[]>(
     users.map((u, idx) => ({
@@ -50,7 +50,7 @@ export default function SchemaModal({ fileUrl, users, onClose, onSave }: SchemaM
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-gray-100 rounded-lg shadow-lg p-4 relative w-[95%] h-[95%] overflow-hidden">
+      <div className="bg-gray-100 rounded-lg shadow-lg p-4 relative w-[60%] h-[95%] flex flex-col">
         {/* кнопка закрытия */}
         <button
           onClick={onClose}
@@ -62,9 +62,9 @@ export default function SchemaModal({ fileUrl, users, onClose, onSave }: SchemaM
         <h2 className="text-lg font-bold mb-2">Схема подписей</h2>
 
         {/* PDF */}
-        <div className="flex-1 flex items-center justify-center bg-gray-100 overflow-y-scroll scroll-hidden">
+        <div className="flex-1 bg-gray-100 overflow-y-auto">
           <div
-            className="relative bg-white shadow-md"
+            className="relative bg-white shadow-md mx-auto"
             style={{ width: pageWidth, height: pageHeight }}
           >
             <Document file={fileUrl}>
@@ -78,20 +78,17 @@ export default function SchemaModal({ fileUrl, users, onClose, onSave }: SchemaM
 
             {/* общий контейнер для всех подписей */}
             <Rnd
-              default={{ x: groupPos.x, y: groupPos.y, width: blockWidth, height: users.length * (blockHeight + 10) }}
-              enableResizing={false} // только перемещение
-              bounds="parent"
-              dragGrid={[10, 10]} // шаг перемещения
-              style={{
-                border: "2px dashed #9333ea",
-                borderRadius: "6px",
-                padding: "5px",
-                background: "rgba(255,255,255,0.5)",
+              default={{
+                x: groupPos.x,
+                y: groupPos.y,
+                width: blockWidth,
+                height: users.length * (blockHeight + 10),
               }}
+              enableResizing={false}
+              bounds="parent"
+              dragGrid={[10, 10]}
               onDragStop={(e, d) => {
                 setGroupPos({ x: d.x, y: d.y });
-
-                // обновляем позиции для сохранения
                 slotsRef.current = users.map((u, idx) => ({
                   userId: u.id,
                   page: 1,
@@ -104,7 +101,12 @@ export default function SchemaModal({ fileUrl, users, onClose, onSave }: SchemaM
             >
               <div className="flex flex-col gap-2">
                 {users.map((u) => (
-                  <SignatureBlock key={u.id} fio={u.fio} preview />
+                  <SignatureBlock
+                    key={u.id}
+                    fio={u.fio}
+                    preview
+                    style={{ width: blockWidth, height: blockHeight }}
+                  />
                 ))}
               </div>
             </Rnd>

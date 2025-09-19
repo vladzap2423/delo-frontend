@@ -12,6 +12,7 @@ interface TaskCardProps {
 }
 
 export default function TaskCard({ task, currentUserId, onSign }: TaskCardProps) {
+  const [showPdf, setShowPdf] = useState(false);
 
   const isUserSigner = task.signs.some(
     (s) => s.user.id === currentUserId && !s.isSigned
@@ -43,12 +44,7 @@ export default function TaskCard({ task, currentUserId, onSign }: TaskCardProps)
       {/* Правая колонка */}
       <div className="flex flex-col">
         <button
-        onClick={() => {
-          if (task.filePath) {
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/${task.filePath}`;
-            window.open(url, "_blank");
-          }
-        }}
+        onClick={() => setShowPdf(true)}
         className="ml-2 px-3 py-1 mb-1 text-sm bg-green-200 text-black rounded-xl hover:bg-green-400">
           Открыть
         </button>

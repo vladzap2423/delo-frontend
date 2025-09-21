@@ -6,11 +6,9 @@ import { Plus } from "lucide-react";
 import { createTask, getAllTasks, Task } from "@/services/task.service";
 import { getAllCommissions, Commission } from "@/services/commission.service";
 import { useAuthStore } from "@/store/auth";
-import dynamic from "next/dynamic";
 import TaskCard from "@/components/task/TaskCard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
 
-const SchemaModal = dynamic(() => import("@/components/task/SchemaModal"), { ssr: false });
 
 export default function TaskPage() {
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +24,7 @@ export default function TaskPage() {
   const [signSchema, setSignSchema] = useState<any[]>([]);
 
   const router = useRouter();
-    
+
   useEffect(() => {
     if (showModal) {
       getAllCommissions().then(setCommissions).catch(console.error);
@@ -71,8 +69,8 @@ export default function TaskPage() {
   const completed = filteredTasks.filter((t) => t.status === "completed");
 
   return (
-    <div className="grid grid-cols-3 gap-6">
-      <div className="col-span-2 bg-white rounded-lg shadow p-4">
+    <div className="h-[calc(100vh-99px)] grid grid-cols-3 gap-6 p-4 overflow-hidden">
+      <div className="col-span-2 bg-white rounded-lg shadow p-4 flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl font-bold">В работе:</h1>
           <button
@@ -83,16 +81,16 @@ export default function TaskPage() {
             Создать
           </button>
         </div>
-        <div className="space-y-3">
+        <div className="flex-1 overflow-y-auto space-y-3">
           {inProgress.map((t) => (
             <TaskCard key={t.id} task={t} currentUserId={user?.sub!} onSign={handleSign} />
           ))}
         </div>
       </div>
 
-      <div className="col-span-1 bg-white rounded-lg shadow p-4">
+      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col">
         <h1 className="text-xl font-bold mb-4">Отработано:</h1>
-        <div className="space-y-3">
+        <div className="flex-1 overflow-y-auto space-y-3">
           {completed.map((t) => (
             <TaskCard key={t.id} task={t} currentUserId={user?.sub!} onSign={handleSign} />
           ))}
@@ -110,21 +108,16 @@ export default function TaskPage() {
         onTitleChange={setTitle}
         onFileChange={setFile}
         onCommissionChange={setCommissionId}
-        onSchemaClick={() => setShowSchemaModal(true)}
+        onSchemaClick={() => {
+          if (file?.type === "application/pdf") {
+            setShowSchemaModal(true)
+          } else {
+            alert("Схема доступна только для pdf")
+          }
+        }
+        }
         onSubmit={handleSubmit}
       />
-
-      {showSchemaModal && file && (
-        <SchemaModal
-          fileUrl={URL.createObjectURL(file)}
-          users={commissions.find((c) => c.id === commissionId)?.users || []}
-          onClose={() => setShowSchemaModal(false)}
-          onSave={(slots) => {
-            setSignSchema(slots);
-            setShowSchemaModal(false);
-          }}
-        />
-      )}
     </div>
   );
 }

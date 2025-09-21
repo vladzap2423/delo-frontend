@@ -9,6 +9,15 @@ body {
   line-height: 1.6;
 }
 
+.no-caret {
+  caret-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
 /* app/globals.css или src/app/globals.css */
 .scroll-hidden::-webkit-scrollbar {
   display: none;

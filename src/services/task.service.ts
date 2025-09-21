@@ -5,14 +5,6 @@ export interface CreateTaskDto {
   creatorId: number;
   commissionId: number;
   file?: File;
-  signSchema?: {
-    userId: number;
-    page: number;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }[];
 }
 
 export interface Task {
@@ -29,15 +21,6 @@ export interface Task {
     id: number;
     name: string;
   };
-  signs: {
-    id: number;
-    isSigned: boolean;
-    user: {
-      id: number;
-      fio: string;
-      post: string;
-    };
-  }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -50,9 +33,6 @@ export async function createTask(data: CreateTaskDto): Promise<Task> {
 
   if (data.file) {
     formData.append("file", data.file);
-  }
-  if (data.signSchema) {
-    formData.append("signSchema", JSON.stringify(data.signSchema));
   }
 
   return authorizedFetch<Task>("/tasks", {

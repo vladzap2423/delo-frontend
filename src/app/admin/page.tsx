@@ -84,7 +84,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 no-caret">
       {/* Заголовок и кнопка */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Список пользователей</h1>

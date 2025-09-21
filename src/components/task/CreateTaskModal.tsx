@@ -63,15 +63,6 @@ export default function CreateTaskModal({
           </select>
         </div>
 
-        {commissionId > 0 && file && (
-          <button
-            onClick={onSchemaClick}
-            className="mt-3 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Разместить подписи
-          </button>
-        )}
-
         <div className="flex justify-end gap-2 mt-6">
           <button
             onClick={onClose}

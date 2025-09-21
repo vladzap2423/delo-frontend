@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { Task } from "@/services/task.service";
 

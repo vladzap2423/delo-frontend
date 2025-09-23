@@ -79,7 +79,7 @@ export default function TaskPage() {
           </button>
         </div>
         {/* именно тут скролл */}
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-400">
           {inProgress.map((t) => (
             <TaskCard key={t.id} task={t} currentUserId={user.sub} onSign={handleSign} />
           ))}

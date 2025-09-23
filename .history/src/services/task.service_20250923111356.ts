@@ -12,16 +12,9 @@ export interface Task {
   title: string;
   filePath: string | null;
   status: "in_progress" | "completed";
-
   signs: {
-    id: number;
-    isSigned: boolean;
-    user: {
-      id: number;
-      fio: string;
-      post: string;
-    };
-  }[];
+    id:
+  }
   creator: {
     id: number;
     fio: string;

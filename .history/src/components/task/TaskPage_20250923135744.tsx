@@ -87,7 +87,7 @@ export default function TaskPage() {
       </div>
 
       {/* Отработано */}
-      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-150px)]">
+      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-120px)]">
         <h1 className="text-xl font-bold mb-4">Отработано:</h1>
         {/* тут тоже скролл */}
         <div className="flex-1 overflow-y-auto space-y-3 pr-2">

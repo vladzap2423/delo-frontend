@@ -13,6 +13,7 @@ interface CreateTaskModalProps {
   onTitleChange: (v: string) => void;
   onFileChange: (f: File | null) => void;
   onCommissionChange: (id: number) => void;
+  onSchemaClick: () => void;
   onSubmit: () => void;
 }
 
@@ -27,6 +28,7 @@ export default function CreateTaskModal({
   onTitleChange,
   onFileChange,
   onCommissionChange,
+  onSchemaClick,
   onSubmit,
 }: CreateTaskModalProps) {
   if (!open) return null;

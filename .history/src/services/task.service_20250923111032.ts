@@ -5,6 +5,7 @@ export interface CreateTaskDto {
   creatorId: number;
   commissionId: number;
   file?: File;
+  signs: string
 }
 
 export interface Task {
@@ -12,18 +13,9 @@ export interface Task {
   title: string;
   filePath: string | null;
   status: "in_progress" | "completed";
-
-  signs: {
-    id: number;
-    isSigned: boolean;
-    user: {
-      id: number;
-      fio: string;
-      post: string;
-    };
-  }[];
   creator: {
     id: number;
+    username: string;
     fio: string;
   };
   commission: {

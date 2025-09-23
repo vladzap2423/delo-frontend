@@ -19,7 +19,7 @@ export interface Task {
     user: {
       id: number;
       fio: string;
-      post: string;
+      post: string; // если есть
     };
   }[];
   creator: {

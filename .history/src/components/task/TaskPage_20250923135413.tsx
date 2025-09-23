@@ -67,7 +67,7 @@ export default function TaskPage() {
     <div className="h-[calc(100vh-99px)] grid grid-cols-3 gap-6 p-4 overflow-hidden">
 
       {/* В работе */}
-      <div className="col-span-2 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-150px)]">
+      <div className="col-span-2 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-120px)]">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl font-bold">В работе:</h1>
           <button
@@ -79,7 +79,7 @@ export default function TaskPage() {
           </button>
         </div>
         {/* именно тут скролл */}
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-3 pr-2 pb-10">
           {inProgress.map((t) => (
             <TaskCard key={t.id} task={t} currentUserId={user.sub} onSign={handleSign} />
           ))}
@@ -87,7 +87,7 @@ export default function TaskPage() {
       </div>
 
       {/* Отработано */}
-      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-150px)]">
+      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-120px)]">
         <h1 className="text-xl font-bold mb-4">Отработано:</h1>
         {/* тут тоже скролл */}
         <div className="flex-1 overflow-y-auto space-y-3 pr-2">

@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { createTask, getAllTasks, Task } from "@/services/task.service";
 import { getAllCommissions, Commission } from "@/services/commission.service";
 import { useAuthStore } from "@/store/auth";
 import TaskCard from "@/components/task/TaskCard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
+
 
 export default function TaskPage() {
   const [showModal, setShowModal] = useState(false);
@@ -18,14 +20,18 @@ export default function TaskPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const { user } = useAuthStore();
 
-  // Загружаем комиссии при открытии модалки
+  const [showSchemaModal, setShowSchemaModal] = useState(false);
+  const [signSchema, setSignSchema] = useState<any[]>([]);
+
+  const router = useRouter();
+
   useEffect(() => {
     if (showModal) {
       getAllCommissions().then(setCommissions).catch(console.error);
     }
   }, [showModal]);
 
-  // Загружаем задачи при монтировании
+  // при монтировании грузим задачи
   useEffect(() => {
     getAllTasks().then(setTasks).catch(console.error);
   }, []);
@@ -40,6 +46,7 @@ export default function TaskPage() {
         creatorId: user.sub,
         commissionId,
         file,
+        signSchema,
       });
       setTasks((prev) => [task, ...prev]);
       setShowModal(false);
@@ -61,13 +68,9 @@ export default function TaskPage() {
   const inProgress = filteredTasks.filter((t) => t.status === "in_progress");
   const completed = filteredTasks.filter((t) => t.status === "completed");
 
-  if (!user) return null;
-
   return (
     <div className="h-[calc(100vh-99px)] grid grid-cols-3 gap-6 p-4 overflow-hidden">
-
-      {/* В работе */}
-      <div className="col-span-2 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-150px)]">
+      <div className="col-span-2 bg-white rounded-lg shadow p-4 flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl font-bold">В работе:</h1>
           <button
@@ -78,26 +81,22 @@ export default function TaskPage() {
             Создать
           </button>
         </div>
-        {/* именно тут скролл */}
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-3">
           {inProgress.map((t) => (
-            <TaskCard key={t.id} task={t} currentUserId={user.sub} onSign={handleSign} />
+            <TaskCard key={t.id} task={t} currentUserId={user?.sub!} onSign={handleSign} />
           ))}
         </div>
       </div>
 
-      {/* Отработано */}
-      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col h-[calc(100vh-150px)]">
+      <div className="col-span-1 bg-white rounded-lg shadow p-4 flex flex-col">
         <h1 className="text-xl font-bold mb-4">Отработано:</h1>
-        {/* тут тоже скролл */}
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-3">
           {completed.map((t) => (
-            <TaskCard key={t.id} task={t} currentUserId={user.sub} onSign={handleSign} />
+            <TaskCard key={t.id} task={t} currentUserId={user?.sub!} onSign={handleSign} />
           ))}
         </div>
       </div>
 
-      {/* Модалка создания задачи */}
       <CreateTaskModal
         open={showModal}
         title={title}
@@ -109,6 +108,14 @@ export default function TaskPage() {
         onTitleChange={setTitle}
         onFileChange={setFile}
         onCommissionChange={setCommissionId}
+        onSchemaClick={() => {
+          if (file?.type === "application/pdf") {
+            setShowSchemaModal(true)
+          } else {
+            alert("Схема доступна только для pdf")
+          }
+        }
+        }
         onSubmit={handleSubmit}
       />
     </div>

@@ -1,0 +1,7 @@
+{
+  "workbench.colorTheme": "Default Light Modern",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#006633",
+    "titleBar.activeForeground": "#ffffff"
+  }
+}

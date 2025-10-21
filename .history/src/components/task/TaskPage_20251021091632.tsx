@@ -74,7 +74,6 @@ export default function TaskPage() {
             onClick={() => {
               setTitle("")
               setFile(null)
-              setCommissionId(0)
               setShowModal(true)}}
             className="flex items-center gap-2 px-3 py-1 bg-emerald-500 text-white rounded-3xl hover:bg-emerald-700"
           >

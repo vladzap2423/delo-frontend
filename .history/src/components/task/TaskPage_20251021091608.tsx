@@ -72,9 +72,6 @@ export default function TaskPage() {
           <h1 className="text-xl font-bold">В работе:</h1>
           <button
             onClick={() => {
-              setTitle("")
-              setFile(null)
-              setCommissionId(0)
               setShowModal(true)}}
             className="flex items-center gap-2 px-3 py-1 bg-emerald-500 text-white rounded-3xl hover:bg-emerald-700"
           >

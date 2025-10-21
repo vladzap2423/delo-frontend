@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, FileText, Loader2 } from "lucide-react";
 import { Commission } from "@/services/commission.service";
@@ -32,17 +31,6 @@ export default function CreateTaskModal({
   onCommissionChange,
   onSubmit,
 }: CreateTaskModalProps) {
-  const [isDragOver, setIsDragOver] = useState(false);
-
-  // Очистка всех полей при открытии модалки
-  useEffect(() => {
-    if (open) {
-      onTitleChange("");
-      onFileChange(null);
-      onCommissionChange(0);
-    }
-  }, [open]);
-
   return (
     <AnimatePresence>
       {open && (
@@ -80,38 +68,27 @@ export default function CreateTaskModal({
                 <input
                   type="text"
                   placeholder="Введите название задачи"
-                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
-                    title
-                      ? "border-emerald-400 focus:ring-emerald-400"
-                      : "border-gray-300 focus:ring-emerald-200"
-                  }`}
+                  className="w-full border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400"
                   value={title}
                   onChange={(e) => onTitleChange(e.target.value)}
                 />
               </div>
 
-              {/* Файл с drag-and-drop */}
+              {/* Файл */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">
                   Файл
                 </label>
 
                 <div
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setIsDragOver(true);
-                  }}
-                  onDragLeave={() => setIsDragOver(false)}
+                  onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => {
                     e.preventDefault();
-                    setIsDragOver(false);
                     const droppedFile = e.dataTransfer.files?.[0];
                     if (droppedFile) onFileChange(droppedFile);
                   }}
-                  className={`border-2 border-dashed rounded-lg px-4 py-6 text-center cursor-pointer transition transform ${
-                    isDragOver
-                      ? "border-emerald-500 bg-emerald-50 scale-[1.02]"
-                      : file
+                  className={`border-2 border-dashed rounded-lg px-4 py-6 text-center cursor-pointer transition ${
+                    file
                       ? "border-emerald-400 bg-emerald-50"
                       : "border-gray-300 hover:border-emerald-400 hover:bg-gray-50"
                   }`}
@@ -121,9 +98,7 @@ export default function CreateTaskModal({
                     <div className="flex flex-col items-center text-emerald-700">
                       <FileText className="w-6 h-6 mb-2" />
                       <span className="text-sm font-medium">{file.name}</span>
-                      <span className="text-xs text-gray-500 mt-1">
-                        Нажмите, чтобы заменить
-                      </span>
+                      <span className="text-xs text-gray-500 mt-1">Нажмите, чтобы заменить</span>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center text-gray-500">
@@ -131,9 +106,7 @@ export default function CreateTaskModal({
                       <span className="text-sm font-medium">
                         Перетащите файл сюда или нажмите, чтобы выбрать
                       </span>
-                      <span className="text-xs text-gray-400 mt-1">
-                        PDF, Excel и другие форматы
-                      </span>
+                      <span className="text-xs text-gray-400 mt-1">PDF, Excel и другие форматы</span>
                     </div>
                   )}
                 </div>
@@ -142,9 +115,7 @@ export default function CreateTaskModal({
                   id="fileInput"
                   type="file"
                   className="hidden"
-                  onChange={(e) =>
-                    onFileChange(e.target.files?.[0] || null)
-                  }
+                  onChange={(e) => onFileChange(e.target.files?.[0] || null)}
                 />
               </div>
 
@@ -154,11 +125,7 @@ export default function CreateTaskModal({
                   Комиссия
                 </label>
                 <select
-                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
-                    commissionId
-                      ? "border-emerald-400 focus:ring-emerald-400"
-                      : "border-gray-300 focus:ring-emerald-200"
-                  }`}
+                  className="w-full border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400"
                   value={commissionId || ""}
                   onChange={(e) => onCommissionChange(Number(e.target.value))}
                 >
@@ -174,7 +141,10 @@ export default function CreateTaskModal({
 
             {/* Кнопки */}
             <div className="flex justify-end gap-3 mt-6">
-              <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+              >
                 Отмена
               </button>
               <button

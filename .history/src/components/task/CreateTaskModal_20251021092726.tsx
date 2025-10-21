@@ -80,11 +80,7 @@ export default function CreateTaskModal({
                 <input
                   type="text"
                   placeholder="Введите название задачи"
-                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
-                    title
-                      ? "border-emerald-400 focus:ring-emerald-400"
-                      : "border-gray-300 focus:ring-emerald-200"
-                  }`}
+                  className="w-full border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400"
                   value={title}
                   onChange={(e) => onTitleChange(e.target.value)}
                 />
@@ -95,7 +91,6 @@ export default function CreateTaskModal({
                 <label className="text-sm font-medium text-gray-700 mb-1 block">
                   Файл
                 </label>
-
                 <div
                   onDragOver={(e) => {
                     e.preventDefault();
@@ -154,11 +149,7 @@ export default function CreateTaskModal({
                   Комиссия
                 </label>
                 <select
-                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
-                    commissionId
-                      ? "border-emerald-400 focus:ring-emerald-400"
-                      : "border-gray-300 focus:ring-emerald-200"
-                  }`}
+                  className="w-full border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400"
                   value={commissionId || ""}
                   onChange={(e) => onCommissionChange(Number(e.target.value))}
                 >
@@ -174,7 +165,10 @@ export default function CreateTaskModal({
 
             {/* Кнопки */}
             <div className="flex justify-end gap-3 mt-6">
-              <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+              >
                 Отмена
               </button>
               <button

@@ -174,7 +174,8 @@ export default function CreateTaskModal({
 
             {/* Кнопки */}
             <div className="flex justify-end gap-3 mt-6">
-              <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
+              <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+              >
                 Отмена
               </button>
               <button

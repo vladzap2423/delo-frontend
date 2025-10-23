@@ -24,7 +24,7 @@ export default function CreateTaskModal({
   title,
   file,
   commissionId,
-  commissions,
+
   loading,
   onClose,
   onTitleChange,
@@ -90,30 +90,6 @@ export default function CreateTaskModal({
                 />
               </div>
 
-              {/* Комиссия */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
-                  Комиссия
-                </label>
-                <select
-                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
-                    commissionId
-                      ? "border-emerald-400 focus:ring-emerald-400"
-                      : "border-gray-300 focus:ring-emerald-200"
-                  }`}
-                  value={commissionId || ""}
-                  onChange={(e) => onCommissionChange(Number(e.target.value))}
-                >
-                  <option value="">Выберите комиссию</option>
-                  {commissions.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            
-
               {/* Файл с drag-and-drop */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -170,6 +146,29 @@ export default function CreateTaskModal({
                     onFileChange(e.target.files?.[0] || null)
                   }
                 />
+              </div>
+
+              {/* Комиссия */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Комиссия
+                </label>
+                <select
+                  className={`w-full border rounded-lg px-3 py-2 outline-none transition focus:ring-2 ${
+                    commissionId
+                      ? "border-emerald-400 focus:ring-emerald-400"
+                      : "border-gray-300 focus:ring-emerald-200"
+                  }`}
+                  value={commissionId || ""}
+                  onChange={(e) => onCommissionChange(Number(e.target.value))}
+                >
+                  <option value="">Выберите комиссию</option>
+                  {commissions.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

@@ -112,7 +112,7 @@ export default function CreateTaskModal({
                   ))}
                 </select>
               </div>
-            
+            </div>
 
               {/* Файл с drag-and-drop */}
               <div>
@@ -171,7 +171,6 @@ export default function CreateTaskModal({
                   }
                 />
               </div>
-            </div>
 
             {/* Кнопки */}
             <div className="flex justify-end gap-3 mt-6">
